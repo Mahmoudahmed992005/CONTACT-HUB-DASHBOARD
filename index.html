@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContactHub — Smart Contact Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body class="app-body min-vh-100">
+    <header class="app-navbar sticky-top">
+      <div class="container-fluid px-3 px-lg-5 py-3">
+        <div class="d-flex align-items-center flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+                <circle
+                  cx="20"
+                  cy="21"
+                  r="8"
+                  fill="#ffffff"
+                  fill-opacity="0.95"
+                />
+                <circle
+                  cx="38"
+                  cy="30"
+                  r="6.5"
+                  fill="#ffffff"
+                  fill-opacity="0.7"
+                />
+                <path
+                  d="M8 46c1.3-8.6 6.6-13 12-13s10.7 4.4 12 13"
+                  stroke="#ffffff"
+                  stroke-opacity="0.95"
+                  stroke-width="3.4"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+                <path
+                  d="M30 46c1-6.2 4.7-9.4 8-9.4s7 3.2 8 9.4"
+                  stroke="#ffffff"
+                  stroke-opacity="0.7"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <div>
+              <h1 class="app-title m-0">
+                Contact<span class="text-brand">Hub</span>
+              </h1>
+              <span class="text-subtle d-block small"
+                >Smart contact manager</span
+              >
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2 ms-sm-auto">
+            <button
+              class="btn-add-contact"
+              type="button"
+              id="openModalBtn"
+              onclick="openContactModal()"
+            >
+              <i class="fa-solid fa-plus"></i>
+              <span>Add Contact</span>
+            </button>
+
+            <button
+              class="icon-box icon-box--surface"
+              type="button"
+              aria-label="Settings"
+            >
+              <i class="fa-solid fa-gear fa-lg"></i>
+            </button>
+
+            <button
+              class="icon-box icon-box--surface icon-box--notify"
+              type="button"
+              aria-label="Notifications"
+            >
+              <i class="fa-solid fa-bell fa-lg"></i>
+            </button>
+
+            <span class="navbar-divider d-none d-sm-block"></span>
+
+            <button
+              class="icon-box icon-box--avatar"
+              type="button"
+              aria-label="Profile"
+            >
+              <img
+                src="./young-african-american-man-casual-t-shirt_273609-11890.avif"
+                alt="Profile picture"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container-fluid px-3 px-lg-5 py-4">
+      <section class="row g-3">
+        <div class="col-12 col-md-4">
+          <div class="stat-card">
+            <div class="icon-box icon-box--primary">
+              <i class="fa-solid fa-users fa-lg"></i>
+            </div>
+            <div>
+              <h2 class="stat-card__title m-0">
+                Total <span class="text-brand">Contacts</span>
+              </h2>
+              <span id="totalCount" class="stat-card__value">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="stat-card">
+            <div class="icon-box icon-box--favorite">
+              <i class="fa-solid fa-star fa-lg"></i>
+            </div>
+            <div>
+              <h2 class="stat-card__title m-0">Favorites</h2>
+              <span id="favCount" class="stat-card__value">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="stat-card">
+            <div class="icon-box icon-box--emergency">
+              <i class="fa-solid fa-heart-pulse fa-lg"></i>
+            </div>
+            <div>
+              <h2 class="stat-card__title m-0">Emergency</h2>
+              <span id="emgCount" class="stat-card__value">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-heading pt-4 pb-3">
+        <h2 class="section-heading__title m-0">All Contacts</h2>
+        <span class="text-subtle"
+          >Manage and organize your
+          <span id="allContactsCount">0</span> contacts</span
+        >
+      </section>
+
+      <section class="row g-4">
+        <div class="col-12 col-lg-8">
+          <div class="search-bar mb-4">
+            <i class="fa-solid fa-magnifying-glass search-bar__icon"></i>
+            <input
+              id="search"
+              type="text"
+              class="search-bar__input"
+              placeholder="Search by name, phone, or email…"
+              aria-label="Search contacts"
+            />
+          </div>
+
+          <div class="row" id="contactsGrid"></div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="side-panel mb-4">
+            <div class="side-panel__header side-panel__header--favorite">
+              <div class="icon-box icon-box--favorite">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <div>
+                <h3 class="side-panel__title m-0">Favorite Contacts</h3>
+                <span class="text-subtle small"
+                  >Quick access to people you call most</span
+                >
+              </div>
+            </div>
+            <div class="side-panel__body" id="favoritesList"></div>
+          </div>
+
+          <div class="side-panel">
+            <div class="side-panel__header side-panel__header--emergency">
+              <div class="icon-box icon-box--emergency">
+                <i class="fa-solid fa-heart-pulse"></i>
+              </div>
+              <div>
+                <h3 class="side-panel__title m-0">Emergency Contacts</h3>
+                <span class="text-subtle small"
+                  >Reach these numbers first in an emergency</span
+                >
+              </div>
+            </div>
+            <div class="side-panel__body" id="emergencyList"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-overlay d-none" id="contactModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Contact</h3>
+          <button
+            class="close-btn"
+            id="closeModalBtn"
+            onclick="closeContactModal()"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-photo-upload">
+          <div class="modal-photo-placeholder" id="photoPreview">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <button type="button" class="change-photo-btn" id="changePhotoBtn">
+            <i class="fa-solid fa-camera"></i> Change photo
+          </button>
+          <input type="file" accept="image/*" id="photoInput" class="d-none" />
+        </div>
+
+        <form id="addContactForm">
+          <div class="form-group">
+            <label for="contactNameInput"
+              >Full Name <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              placeholder="e.g., Sara Ahmed"
+              required
+              id="contactNameInput"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="contactPhoneInput"
+              >Phone Number <span class="required">*</span></label
+            >
+            <input
+              type="tel"
+              placeholder="e.g., 01012345678"
+              required
+              id="contactPhoneInput"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="contactEmailInput">Email Address</label>
+            <input
+              type="email"
+              placeholder="sara.ahmed@example.com"
+              id="contactEmailInput"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="contactAddressInput">Address</label>
+            <input
+              type="text"
+              placeholder="e.g., Giza, Egypt"
+              id="contactAddressInput"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="contactGroupSelect">Group</label>
+            <select id="contactGroupSelect">
+              <option value="" disabled selected>Select a group</option>
+              <option value="friends">Friends</option>
+              <option value="work">Work</option>
+              <option value="family">Family</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contactNotesInput">Notes</label>
+            <textarea
+              placeholder="Add notes about this contact"
+              rows="3"
+              id="contactNotesInput"
+            ></textarea>
+          </div>
+
+          <div class="modal-checkbox-group">
+            <label class="modal-check-item">
+              <input type="checkbox" id="contactFavoriteCheck" />
+              <span
+                ><i class="fa-solid fa-star" style="color: #d97706"></i>
+                Favorite</span
+              >
+            </label>
+            <label class="modal-check-item">
+              <input type="checkbox" id="contactEmergencyCheck" />
+              <span
+                ><i class="fa-solid fa-heart-pulse" style="color: #dc2626"></i>
+                Emergency</span
+              >
+            </label>
+          </div>
+
+          <div class="modal-footer row g-2">
+            <div class="col-6">
+              <button
+                type="button"
+                class="btn-cancel w-100"
+                onclick="closeContactModal()"
+              >
+                Cancel
+              </button>
+            </div>
+            <div class="col-6">
+              <button
+                type="button"
+                class="btn-save w-100"
+                onclick="saveContact()"
+              >
+                <i class="fa-solid fa-check"></i> Save Contact
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
