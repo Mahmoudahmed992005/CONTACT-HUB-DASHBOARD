@@ -704,6 +704,9 @@
   .btn-add-contact span {
     display: none;
   }
+  .section-heading {
+    text-align: center;
+  }
 
   .btn-add-contact {
     width: 48px;
